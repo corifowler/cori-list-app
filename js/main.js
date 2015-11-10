@@ -1,5 +1,11 @@
-import $ from 'jquery';
-import _ from 'underscore';
-import moment from 'moment';
+import angular from 'angular';
+import 'angular-ui-router';
 
-console.log('Hello, World');
+import configFunc from './config';
+
+import PageController from './controllers/pagecontroller';
+
+angular
+  .module('app', ['ui.router'])
+  .config(configFunc)
+  .controller('PageController', PageController);
