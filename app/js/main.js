@@ -13,12 +13,16 @@ var config = function config($stateProvider, $urlRouterProvider) {
     templateUrl: 'templates/layout.tpl.html'
   }).state('root.home', {
     url: '/',
-    controller: 'PageController',
+    controller: 'HomeController',
     templateUrl: 'templates/home.tpl.html'
   }).state('root.search', {
     url: '/search',
     controller: 'PageController',
     templateUrl: 'templates/search.tpl.html'
+  }).state('root.add', {
+    url: '/add',
+    controller: 'AddController',
+    templateUrl: 'templates/new_list.tpl.html'
   });
 };
 
@@ -33,14 +37,52 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var PageController = function PageController($scope) {};
+var AddController = function AddController($scope, $http, PARSE) {
 
-PageController.$inject = ['$scope'];
+  var url = PARSE.URL + 'classes/lists';
 
-exports['default'] = PageController;
+  var List = function List(obj) {
+    this.title = obj.title;
+    this.description = obj.description;
+  };
+
+  $scope.createList = function (obj) {
+
+    var l = new List(obj);
+
+    $http.post(url, l, PARSE.CONFIG).then(function (response) {
+      console.log(response);
+      $scope.list = {};
+    });
+  };
+};
+
+AddController.$inject = ['$scope', '$http', 'PARSE'];
+
+exports['default'] = AddController;
 module.exports = exports['default'];
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var HomeController = function HomeController($scope, $http, PARSE) {
+
+  var url = PARSE.URL + 'classes/lists';
+
+  $http.get(url, PARSE.CONFIG).then(function (response) {
+    $scope.lists = response.data.results;
+  });
+};
+
+HomeController.$inject = ['$scope', '$http', 'PARSE'];
+
+exports['default'] = HomeController;
+module.exports = exports['default'];
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -55,13 +97,25 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
-var _controllersPagecontroller = require('./controllers/pagecontroller');
+var _controllersHomecontroller = require('./controllers/homecontroller');
 
-var _controllersPagecontroller2 = _interopRequireDefault(_controllersPagecontroller);
+var _controllersHomecontroller2 = _interopRequireDefault(_controllersHomecontroller);
 
-_angular2['default'].module('app', ['ui.router']).config(_config2['default']).controller('PageController', _controllersPagecontroller2['default']);
+var _controllersAddcontroller = require('./controllers/addcontroller');
 
-},{"./config":1,"./controllers/pagecontroller":2,"angular":6,"angular-ui-router":4}],4:[function(require,module,exports){
+var _controllersAddcontroller2 = _interopRequireDefault(_controllersAddcontroller);
+
+_angular2['default'].module('app', ['ui.router']).constant('PARSE', {
+  URL: 'https://api.parse.com/1/',
+  CONFIG: {
+    headers: {
+      'X-Parse-Application-Id': 'mS5BjTbDocbwextTJPxtHggVlRS5iXntkLRUjHL5',
+      'X-Parse-REST-API-Key': 'G9VfYonn5rUNIHw7JRGtK6OpEApviiRb83Vqi15z'
+    }
+  }
+}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']);
+
+},{"./config":1,"./controllers/addcontroller":2,"./controllers/homecontroller":3,"angular":7,"angular-ui-router":5}],5:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4432,7 +4486,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33337,11 +33391,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":5}]},{},[3])
+},{"./angular":6}]},{},[4])
 
 
 //# sourceMappingURL=main.js.map

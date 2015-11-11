@@ -1,7 +1,39 @@
 // Put any @imports here
 // See Readme for a list of supported ones
 @import "foundation";
+@import "font-awesome";
+
+// ColorScheme 
+$ltblue: #1EB4DA;
+$pistachio: #C0C95C;
+$dkblue: #1B405B;
+$peach: #FFB1A4;
+$red: #F52E23;
+
 
 body {
-  background: #e2ebf3;
+  font-family: 'Arimo', sans-serif;
 }
+
+.container {
+  width: 90%;
+  margin: 15px auto;
+
+  li {
+    list-style: none;
+
+    h5 {
+      font-weight: bold;
+    }
+  }
+}
+
+.top-bar,
+.nav-btn {
+  background: $dkblue !important;
+}
+
+.nav-btn:hover {
+  background: $pistachio !important;
+}
+
