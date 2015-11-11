@@ -12,15 +12,15 @@ let config = function ($stateProvider, $urlRouterProvider) {
       controller: 'HomeController',
       templateUrl: 'templates/home.tpl.html'
     })
-    .state('root.search', {
-      url: '/search',
-      controller: 'PageController',
-      templateUrl: 'templates/search.tpl.html'
-    })
     .state('root.add', {
       url: '/add',
       controller: 'AddController',
       templateUrl: 'templates/new_list.tpl.html'
+    })
+    .state('root.single', {
+      url: '/single/:listId',
+      controller: 'SingleController',
+      templateUrl: 'templates/single_list.tpl.html'
     });
 
 };

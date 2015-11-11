@@ -5,7 +5,7 @@ let HomeController = function($scope, $http, PARSE) {
   $http.get(url, PARSE.CONFIG).then( (response) => {
     $scope.lists = response.data.results;
   });
-  
+
 
 };
 

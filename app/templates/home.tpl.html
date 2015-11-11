@@ -1,8 +1,7 @@
-<h2>Lists</h2>
 
 <ul>
   <li ng-repeat="list in lists">
-    <p><h5>{{list.title}}</h5></p>
-    <p>{{list.description}}</p>
+   <h5><a href="#/single/{{list.objectId}}"> {{list.title}} </a></h5> | {{list.description}}
+   <hr>
   </li>
 </ul>

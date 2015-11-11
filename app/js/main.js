@@ -15,14 +15,14 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/',
     controller: 'HomeController',
     templateUrl: 'templates/home.tpl.html'
-  }).state('root.search', {
-    url: '/search',
-    controller: 'PageController',
-    templateUrl: 'templates/search.tpl.html'
   }).state('root.add', {
     url: '/add',
     controller: 'AddController',
     templateUrl: 'templates/new_list.tpl.html'
+  }).state('root.single', {
+    url: '/single/:listId',
+    controller: 'SingleController',
+    templateUrl: 'templates/single_list.tpl.html'
   });
 };
 
@@ -44,6 +44,7 @@ var AddController = function AddController($scope, $http, PARSE) {
   var List = function List(obj) {
     this.title = obj.title;
     this.description = obj.description;
+    this.creator = obj.creator;
   };
 
   $scope.createList = function (obj) {
@@ -54,6 +55,10 @@ var AddController = function AddController($scope, $http, PARSE) {
       console.log(response);
       $scope.list = {};
     });
+
+    console.log(l);
+
+    return l;
   };
 };
 
@@ -85,6 +90,84 @@ module.exports = exports['default'];
 },{}],4:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var ItemController = function ItemController($scope, $http, PARSE) {
+
+  var url = PARSE.URL + 'classes/items';
+
+  $scope.addListItems = function (item) {
+
+    console.log(item);
+
+    item = {
+      name: item.name,
+      list: {
+        __type: 'Pointer',
+        className: 'lists',
+        objectId: singleList.objectId
+      }
+    };
+
+    $http.post(url, item, PARSE.CONFIG).then(function (response) {
+      console.log(response);
+      $scope.item = {};
+    });
+  };
+};
+
+ItemController.$inject = ['$scope, $http, PARSE'];
+
+exports['default'] = ItemController;
+module.exports = exports['default'];
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var SingleController = function SingleController($scope, $stateParams, $http, PARSE) {
+
+  var id = $stateParams.listId;
+
+  var url = PARSE.URL + 'classes/lists/' + id;
+  var itemsUrl = PARSE.URL + 'classes/items';
+
+  $http.get(url, PARSE.CONFIG).then(function (response) {
+
+    $scope.singleList = response.data;
+  });
+
+  $scope.addListItems = function (item) {
+
+    console.log(item);
+
+    item = {
+      name: item.name,
+      list: {
+        __type: 'Pointer',
+        className: 'lists',
+        objectId: id
+      }
+    };
+
+    $http.post(itemsUrl, item, PARSE.CONFIG).then(function (response) {
+      console.log(response);
+      $scope.item = {};
+    });
+  };
+};
+
+SingleController.$inject = ['$scope', '$stateParams', '$http', 'PARSE'];
+
+exports['default'] = SingleController;
+module.exports = exports['default'];
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _angular = require('angular');
@@ -105,6 +188,14 @@ var _controllersAddcontroller = require('./controllers/addcontroller');
 
 var _controllersAddcontroller2 = _interopRequireDefault(_controllersAddcontroller);
 
+var _controllersSinglecontroller = require('./controllers/singlecontroller');
+
+var _controllersSinglecontroller2 = _interopRequireDefault(_controllersSinglecontroller);
+
+var _controllersItemcontroller = require('./controllers/itemcontroller');
+
+var _controllersItemcontroller2 = _interopRequireDefault(_controllersItemcontroller);
+
 _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
   URL: 'https://api.parse.com/1/',
   CONFIG: {
@@ -113,9 +204,9 @@ _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
       'X-Parse-REST-API-Key': 'G9VfYonn5rUNIHw7JRGtK6OpEApviiRb83Vqi15z'
     }
   }
-}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']);
+}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']);
 
-},{"./config":1,"./controllers/addcontroller":2,"./controllers/homecontroller":3,"angular":7,"angular-ui-router":5}],5:[function(require,module,exports){
+},{"./config":1,"./controllers/addcontroller":2,"./controllers/homecontroller":3,"./controllers/itemcontroller":4,"./controllers/singlecontroller":5,"angular":9,"angular-ui-router":7}],7:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4486,7 +4577,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33391,11 +33482,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":6}]},{},[4])
+},{"./angular":8}]},{},[6])
 
 
 //# sourceMappingURL=main.js.map

@@ -1,0 +1,12 @@
+<h3>{{ singleList.title }}</h3>
+<p>{{ singleList.description }}</p>
+<p>Created by: {{ singleList.creator }}</p>
+<hr>
+
+
+<hr> 
+
+<form ng-submit="addListItems(item)">
+  <input placeholder="Add List Item" ng-model="item.name">
+  <button class="button small info">Add List Items</button>
+</form>

@@ -5,6 +5,7 @@ let AddController = function($scope, $http, PARSE) {
   let List = function(obj) {
     this.title = obj.title;
     this.description = obj.description;
+    this.creator = obj.creator;
   };
 
   $scope.createList = (obj) => {
@@ -15,6 +16,10 @@ let AddController = function($scope, $http, PARSE) {
       console.log(response);
       $scope.list = {};
     });
+
+    console.log(l);
+
+    return l;
 
   };
 

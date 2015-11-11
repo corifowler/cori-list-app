@@ -5,6 +5,8 @@ import configFunc from './config';
 
 import HomeController from './controllers/homecontroller';
 import AddController from './controllers/addcontroller';
+import SingleController from './controllers/singlecontroller';
+import ItemController from './controllers/itemcontroller';
 
 angular
   .module('app', ['ui.router'])
@@ -19,4 +21,5 @@ angular
   })
   .config(configFunc)
   .controller('HomeController', HomeController)
-  .controller('AddController', AddController);
+  .controller('AddController', AddController)
+  .controller('SingleController', SingleController);

@@ -1,8 +1,9 @@
 <h3>Create A New List</h3>
 
 <form ng-submit="createList(list)">
+  <input placeholder="What is your name?" ng-model="list.creator">
   <input placeholder="What would you like to call this list?" ng-model="list.title">
   <input placeholder="What is this list about?" ng-model="list.description">
-  <input placeholder="List Item 1" ng-model="list.item">
   <button class="button small info">Create List</button>
 </form>
+
