@@ -1,17 +1,12 @@
-let SingleController = function($scope, $stateParams, $http, PARSE) {
+let SingleController = function($scope, $stateParams, ListService) {
 
   let id = $stateParams.listId;
 
-  let url = PARSE.URL + 'classes/lists/' + id;
-  let itemsUrl = PARSE.URL + 'classes/items';
-
-  $http.get(url, PARSE.CONFIG).then( (response) => {
-
+  ListService.getSingleList(id).then( (response) => {
     $scope.singleList = response.data;
-
   });
 
-  $http.get(itemsUrl, PARSE.CONFIG).then( (resp) => {
+  ListService.getListItems().then( (resp) => {
 
     // Gets all list items, need to narrow down to specific list
     $scope.allListItems = resp.data.results;
@@ -38,13 +33,13 @@ let SingleController = function($scope, $stateParams, $http, PARSE) {
       }
     };
 
-    $http.post(itemsUrl, item, PARSE.CONFIG).then( (response) => {
+    ListService.addListItems(item).then( (response) => {
       $scope.item = {};
     });
   };
   
 };
 
-SingleController.$inject = ['$scope', '$stateParams', '$http', 'PARSE'];
+SingleController.$inject = ['$scope', '$stateParams', 'ListService'];
 
 export default SingleController;

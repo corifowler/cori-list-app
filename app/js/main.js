@@ -128,19 +128,15 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var SingleController = function SingleController($scope, $stateParams, $http, PARSE) {
+var SingleController = function SingleController($scope, $stateParams, ListService) {
 
   var id = $stateParams.listId;
 
-  var url = PARSE.URL + 'classes/lists/' + id;
-  var itemsUrl = PARSE.URL + 'classes/items';
-
-  $http.get(url, PARSE.CONFIG).then(function (response) {
-
+  ListService.getSingleList(id).then(function (response) {
     $scope.singleList = response.data;
   });
 
-  $http.get(itemsUrl, PARSE.CONFIG).then(function (resp) {
+  ListService.getListItems().then(function (resp) {
 
     // Gets all list items, need to narrow down to specific list
     $scope.allListItems = resp.data.results;
@@ -166,13 +162,13 @@ var SingleController = function SingleController($scope, $stateParams, $http, PA
       }
     };
 
-    $http.post(itemsUrl, item, PARSE.CONFIG).then(function (response) {
+    ListService.addListItems(item).then(function (response) {
       $scope.item = {};
     });
   };
 };
 
-SingleController.$inject = ['$scope', '$stateParams', '$http', 'PARSE'];
+SingleController.$inject = ['$scope', '$stateParams', 'ListService'];
 
 exports['default'] = SingleController;
 module.exports = exports['default'];
@@ -228,7 +224,32 @@ _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ListService = function ListService($http, PARSE, $state) {};
+var ListService = function ListService($http, PARSE, $state) {
+
+  var url = PARSE.URL + 'classes/lists/';
+
+  var itemsUrl = PARSE.URL + 'classes/items';
+
+  this.getSingleList = function (id) {
+    return $http({
+      url: url + id,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET'
+    });
+  };
+
+  this.getListItems = function () {
+    return $http({
+      url: itemsUrl,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET'
+    });
+  };
+
+  this.addListItems = function (item) {
+    return $http.post(itemsUrl, item, PARSE.CONFIG);
+  };
+};
 
 ListService.$inject = ['$http', 'PARSE', '$state'];
 
