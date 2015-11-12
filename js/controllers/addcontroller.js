@@ -7,7 +7,7 @@ let AddController = function($scope, ListService) {
       $scope.list = {};
     });
   };
-
+  
 };
 
 AddController.$inject = ['$scope', 'ListService'];

@@ -1,14 +1,11 @@
-let HomeController = function($scope, $http, PARSE) {
+let HomeController = function($scope, ListService) {
 
-  let url = PARSE.URL + 'classes/lists';
-  
-  $http.get(url, PARSE.CONFIG).then( (response) => {
+  ListService.getLists().then( (response) => {
     $scope.lists = response.data.results;
   });
 
-
 };
 
-HomeController.$inject = ['$scope', '$http', 'PARSE'];
+HomeController.$inject = ['$scope', 'ListService'];
 
 export default HomeController;

@@ -23,6 +23,10 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/single/:listId',
     controller: 'SingleController',
     templateUrl: 'templates/single_list.tpl.html'
+  }).state('root.edit', {
+    url: '/edit/:itemId',
+    controller: 'EditController',
+    templateUrl: 'templates/edit_list.tpl.html'
   });
 };
 
@@ -59,18 +63,24 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var HomeController = function HomeController($scope, $http, PARSE) {
+var EditController = function EditController($scope, $stateParams, ListService) {
 
-  var url = PARSE.URL + 'classes/lists';
+  var itemId = $stateParams.itemId;
 
-  $http.get(url, PARSE.CONFIG).then(function (response) {
-    $scope.lists = response.data.results;
+  ListService.getItem(itemId).then(function (response) {
+    $scope.item = response.data;
   });
+
+  $scope.updateItem = function (item) {
+    ListService.updateListItem(item).then(function (response) {
+      console.log(response);
+    });
+  };
 };
 
-HomeController.$inject = ['$scope', '$http', 'PARSE'];
+EditController.$inject = ['$scope', '$stateParams', 'ListService'];
 
-exports['default'] = HomeController;
+exports['default'] = EditController;
 module.exports = exports['default'];
 
 },{}],4:[function(require,module,exports){
@@ -79,33 +89,16 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ItemController = function ItemController($scope, $http, PARSE) {
+var HomeController = function HomeController($scope, ListService) {
 
-  var url = PARSE.URL + 'classes/items';
-
-  $scope.addListItems = function (item) {
-
-    console.log(item);
-
-    item = {
-      name: item.name,
-      list: {
-        __type: 'Pointer',
-        className: 'lists',
-        objectId: singleList.objectId
-      }
-    };
-
-    $http.post(url, item, PARSE.CONFIG).then(function (response) {
-      console.log(response);
-      $scope.item = {};
-    });
-  };
+  ListService.getLists().then(function (response) {
+    $scope.lists = response.data.results;
+  });
 };
 
-ItemController.$inject = ['$scope, $http, PARSE'];
+HomeController.$inject = ['$scope', 'ListService'];
 
-exports['default'] = ItemController;
+exports['default'] = HomeController;
 module.exports = exports['default'];
 
 },{}],5:[function(require,module,exports){
@@ -185,9 +178,9 @@ var _controllersSinglecontroller = require('./controllers/singlecontroller');
 
 var _controllersSinglecontroller2 = _interopRequireDefault(_controllersSinglecontroller);
 
-var _controllersItemcontroller = require('./controllers/itemcontroller');
+var _controllersEditcontroller = require('./controllers/editcontroller');
 
-var _controllersItemcontroller2 = _interopRequireDefault(_controllersItemcontroller);
+var _controllersEditcontroller2 = _interopRequireDefault(_controllersEditcontroller);
 
 var _servicesListservice = require('./services/listservice');
 
@@ -201,9 +194,9 @@ _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
       'X-Parse-REST-API-Key': 'G9VfYonn5rUNIHw7JRGtK6OpEApviiRb83Vqi15z'
     }
   }
-}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']).service('ListService', _servicesListservice2['default']);
+}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']).controller('EditController', _controllersEditcontroller2['default']).service('ListService', _servicesListservice2['default']);
 
-},{"./config":1,"./controllers/addcontroller":2,"./controllers/homecontroller":3,"./controllers/itemcontroller":4,"./controllers/singlecontroller":5,"./services/listservice":7,"angular":10,"angular-ui-router":8}],7:[function(require,module,exports){
+},{"./config":1,"./controllers/addcontroller":2,"./controllers/editcontroller":3,"./controllers/homecontroller":4,"./controllers/singlecontroller":5,"./services/listservice":7,"angular":10,"angular-ui-router":8}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -214,6 +207,14 @@ var ListService = function ListService($http, PARSE, $state) {
   var url = PARSE.URL + 'classes/lists/';
 
   var itemsUrl = PARSE.URL + 'classes/items';
+
+  this.getLists = function () {
+    return $http({
+      url: url,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET'
+    });
+  };
 
   var List = function List(obj) {
     this.title = obj.title;
@@ -241,6 +242,18 @@ var ListService = function ListService($http, PARSE, $state) {
       headers: PARSE.CONFIG.headers,
       method: 'GET'
     });
+  };
+
+  this.getItem = function (itemId) {
+    return $http({
+      url: itemsUrl + '/' + itemId,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET'
+    });
+  };
+
+  this.updateListItem = function (item) {
+    return $http.put(itemsUrl + '/' + item.objectId, item, PARSE.CONFIG);
   };
 
   this.addListItems = function (item) {

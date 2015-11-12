@@ -1,12 +1,13 @@
-<h3>{{ singleList.title }}</h3>
-<p>{{ singleList.description }}</p>
-<p>Created by: {{ singleList.creator }}</p>
-<hr>
+<d1>
+  <dt>{{ singleList.title }}</dt>
+  <dd>{{ singleList.description }}</dd>
+  <dd>Created by: {{ singleList.creator }}</dd>
+  <hr>
+</d1>
 
 <ul class="disc">
-  <li ng-repeat="items in matchListItems">{{ items.name }}</li>
+  <li  class="list-item" ng-repeat="items in matchListItems">{{ items.name }} <span class="edit-btns"><a href="#/edit/{{ items.objectId }}"><i class="fa fa-pencil"></i></a>   <i class="fa fa-times"></i></span></li>
 </ul>
-
 
 <hr> 
 

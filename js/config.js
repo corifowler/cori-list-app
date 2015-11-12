@@ -21,6 +21,11 @@ let config = function ($stateProvider, $urlRouterProvider) {
       url: '/single/:listId',
       controller: 'SingleController',
       templateUrl: 'templates/single_list.tpl.html'
+    })
+    .state('root.edit', {
+      url: '/edit/:itemId',
+      controller: 'EditController',
+      templateUrl: 'templates/edit_list.tpl.html'
     });
 
 };

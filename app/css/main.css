@@ -8426,4 +8426,12 @@ body {
 .nav-btn:hover {
   background: #C0C95C !important; }
 
+.edit-btns {
+  display: none; }
+  .edit-btns a {
+    color: #FFB1A4; }
+
+.list-item:hover .edit-btns {
+  display: inline-block; }
+
 /*# sourceMappingURL=main.css.map */
