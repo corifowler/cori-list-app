@@ -140,9 +140,12 @@ var SingleController = function SingleController($scope, $stateParams, $http, PA
     $scope.singleList = response.data;
   });
 
-  $scope.addListItems = function (item) {
+  $http.get(itemsUrl, PARSE.CONFIG).then(function (resp) {
 
-    console.log(item);
+    $scope.allListItems = resp.data.results;
+  });
+
+  $scope.addListItems = function (item) {
 
     item = {
       name: item.name,
@@ -154,7 +157,6 @@ var SingleController = function SingleController($scope, $stateParams, $http, PA
     };
 
     $http.post(itemsUrl, item, PARSE.CONFIG).then(function (response) {
-      console.log(response);
       $scope.item = {};
     });
   };

@@ -11,10 +11,16 @@ let SingleController = function($scope, $stateParams, $http, PARSE) {
 
   });
 
+  $http.get(itemsUrl, PARSE.CONFIG).then( (resp) => {
+
+    $scope.allListItems = resp.data.results;
+
+  });
+
+
+
 
   $scope.addListItems = (item) => {
-
-    console.log(item);
 
     item = { 
       name: item.name,
@@ -26,7 +32,6 @@ let SingleController = function($scope, $stateParams, $http, PARSE) {
     };
 
     $http.post(itemsUrl, item, PARSE.CONFIG).then( (response) => {
-      console.log(response);
       $scope.item = {};
     });
 
