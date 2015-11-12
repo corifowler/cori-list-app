@@ -56,6 +56,9 @@ let ListService = function($http, PARSE, $state) {
     return $http.post(itemsUrl, item, PARSE.CONFIG);
   };
 
+  this.deleteListItem = function (item) {
+    return $http.delete(itemsUrl + '/' + item.objectId, PARSE.CONFIG);
+  };
   
 
 };

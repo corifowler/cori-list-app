@@ -6,7 +6,7 @@
 </d1>
 
 <ul class="disc">
-  <li  class="list-item" ng-repeat="items in matchListItems">{{ items.name }} <span class="edit-btns"><a href="#/edit/{{ items.objectId }}"><i class="fa fa-pencil"></i></a>   <i class="fa fa-times"></i></span></li>
+  <li  class="list-item" ng-repeat="items in matchListItems">{{ items.name }} <span class="edit-btns"><a href="#/edit/{{ items.objectId }}"><i class="fa fa-pencil"></i></a>   <a href="#" ng-click="delete(items)"><i class="fa fa-times"></i></a></span></li>
 </ul>
 
 <hr> 

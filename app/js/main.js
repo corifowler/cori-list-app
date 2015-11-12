@@ -108,7 +108,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var SingleController = function SingleController($scope, $stateParams, ListService) {
+var SingleController = function SingleController($scope, $stateParams, ListService, $state) {
 
   var id = $stateParams.listId;
 
@@ -130,6 +130,14 @@ var SingleController = function SingleController($scope, $stateParams, ListServi
     });
   });
 
+  $scope['delete'] = function (items) {
+    console.log(items);
+    ListService.deleteListItem(items).then(function (response) {
+      console.log(response);
+      $state.go('root.home');
+    });
+  };
+
   $scope.addListItems = function (item) {
 
     item = {
@@ -147,7 +155,7 @@ var SingleController = function SingleController($scope, $stateParams, ListServi
   };
 };
 
-SingleController.$inject = ['$scope', '$stateParams', 'ListService'];
+SingleController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];
 
 exports['default'] = SingleController;
 module.exports = exports['default'];
@@ -259,6 +267,10 @@ var ListService = function ListService($http, PARSE, $state) {
 
   this.addListItems = function (item) {
     return $http.post(itemsUrl, item, PARSE.CONFIG);
+  };
+
+  this.deleteListItem = function (item) {
+    return $http['delete'](itemsUrl + '/' + item.objectId, PARSE.CONFIG);
   };
 };
 

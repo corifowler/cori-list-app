@@ -1,4 +1,4 @@
-let SingleController = function($scope, $stateParams, ListService) {
+let SingleController = function($scope, $stateParams, ListService, $state) {
 
   let id = $stateParams.listId;
 
@@ -20,6 +20,13 @@ let SingleController = function($scope, $stateParams, ListService) {
     });
   });
 
+  $scope.delete = function (items) {
+    console.log(items);
+    ListService.deleteListItem(items).then( (response) => {
+      console.log(response);
+      $state.go('root.home');
+    });
+  };
 
   $scope.addListItems = (item) => {
 
@@ -39,6 +46,6 @@ let SingleController = function($scope, $stateParams, ListService) {
   
 };
 
-SingleController.$inject = ['$scope', '$stateParams', 'ListService'];
+SingleController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];
 
 export default SingleController;
