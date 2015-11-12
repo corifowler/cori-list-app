@@ -1,8 +1,20 @@
 let ListService = function($http, PARSE, $state) {
   
   let url = PARSE.URL + 'classes/lists/';
-  
-  let itemsUrl = PARSE.URL + 'classes/items'; 
+
+  let itemsUrl = PARSE.URL + 'classes/items';
+
+  let List = function (obj) {
+    this.title = obj.title;
+    this.description = obj.description;
+    this.creator = obj.creator;
+  };
+
+  this.newList = function (obj) {
+    let l = new List(obj);
+
+    return $http.post(url, l, PARSE.CONFIG);
+  };
 
   this.getSingleList = function (id) {
     return $http({

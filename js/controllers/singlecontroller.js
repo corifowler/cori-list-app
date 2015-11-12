@@ -8,7 +8,6 @@ let SingleController = function($scope, $stateParams, ListService) {
 
   ListService.getListItems().then( (resp) => {
 
-    // Gets all list items, need to narrow down to specific list
     $scope.allListItems = resp.data.results;
 
     $scope.matchListItems = [];    

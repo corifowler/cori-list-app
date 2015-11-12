@@ -8413,13 +8413,11 @@ body {
 .container {
   width: 80%;
   margin: 15px auto; }
-  .container li {
-    list-style: none; }
-    .container li h5 {
-      font-weight: bold;
-      display: inline-block; }
-      .container li h5 a {
-        color: #F52E23; }
+  .container li h5 {
+    font-weight: bold;
+    display: inline-block; }
+    .container li h5 a {
+      color: #F52E23; }
 
 .top-bar,
 .nav-btn {

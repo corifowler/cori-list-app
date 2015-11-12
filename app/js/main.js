@@ -37,32 +37,18 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var AddController = function AddController($scope, $http, PARSE) {
-
-  var url = PARSE.URL + 'classes/lists';
-
-  var List = function List(obj) {
-    this.title = obj.title;
-    this.description = obj.description;
-    this.creator = obj.creator;
-  };
+var AddController = function AddController($scope, ListService) {
 
   $scope.createList = function (obj) {
 
-    var l = new List(obj);
-
-    $http.post(url, l, PARSE.CONFIG).then(function (response) {
+    ListService.newList(obj).then(function (response) {
       console.log(response);
       $scope.list = {};
     });
-
-    console.log(l);
-
-    return l;
   };
 };
 
-AddController.$inject = ['$scope', '$http', 'PARSE'];
+AddController.$inject = ['$scope', 'ListService'];
 
 exports['default'] = AddController;
 module.exports = exports['default'];
@@ -138,7 +124,6 @@ var SingleController = function SingleController($scope, $stateParams, ListServi
 
   ListService.getListItems().then(function (resp) {
 
-    // Gets all list items, need to narrow down to specific list
     $scope.allListItems = resp.data.results;
 
     $scope.matchListItems = [];
@@ -229,6 +214,18 @@ var ListService = function ListService($http, PARSE, $state) {
   var url = PARSE.URL + 'classes/lists/';
 
   var itemsUrl = PARSE.URL + 'classes/items';
+
+  var List = function List(obj) {
+    this.title = obj.title;
+    this.description = obj.description;
+    this.creator = obj.creator;
+  };
+
+  this.newList = function (obj) {
+    var l = new List(obj);
+
+    return $http.post(url, l, PARSE.CONFIG);
+  };
 
   this.getSingleList = function (id) {
     return $http({
