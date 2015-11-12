@@ -16,9 +16,11 @@ let SingleController = function($scope, $stateParams, $http, PARSE) {
     // Gets all list items, need to narrow down to specific list
     $scope.allListItems = resp.data.results;
 
+    $scope.matchListItems = [];    
+
     angular.forEach($scope.allListItems, function(items) {
       if (items.list.objectId === id) {
-        $scope.matchListItems = items;
+        $scope.matchListItems.push(items);        
         console.log($scope.matchListItems);
       }
     });
@@ -39,7 +41,6 @@ let SingleController = function($scope, $stateParams, $http, PARSE) {
     $http.post(itemsUrl, item, PARSE.CONFIG).then( (response) => {
       $scope.item = {};
     });
-
   };
   
 };

@@ -8,6 +8,8 @@ import AddController from './controllers/addcontroller';
 import SingleController from './controllers/singlecontroller';
 import ItemController from './controllers/itemcontroller';
 
+import ListService from './services/listservice';
+
 angular
   .module('app', ['ui.router'])
   .constant('PARSE', {
@@ -22,4 +24,5 @@ angular
   .config(configFunc)
   .controller('HomeController', HomeController)
   .controller('AddController', AddController)
-  .controller('SingleController', SingleController);
+  .controller('SingleController', SingleController)
+  .service('ListService', ListService);

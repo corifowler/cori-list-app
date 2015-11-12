@@ -145,9 +145,11 @@ var SingleController = function SingleController($scope, $stateParams, $http, PA
     // Gets all list items, need to narrow down to specific list
     $scope.allListItems = resp.data.results;
 
+    $scope.matchListItems = [];
+
     angular.forEach($scope.allListItems, function (items) {
       if (items.list.objectId === id) {
-        $scope.matchListItems = items;
+        $scope.matchListItems.push(items);
         console.log($scope.matchListItems);
       }
     });
@@ -206,6 +208,10 @@ var _controllersItemcontroller = require('./controllers/itemcontroller');
 
 var _controllersItemcontroller2 = _interopRequireDefault(_controllersItemcontroller);
 
+var _servicesListservice = require('./services/listservice');
+
+var _servicesListservice2 = _interopRequireDefault(_servicesListservice);
+
 _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
   URL: 'https://api.parse.com/1/',
   CONFIG: {
@@ -214,9 +220,22 @@ _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
       'X-Parse-REST-API-Key': 'G9VfYonn5rUNIHw7JRGtK6OpEApviiRb83Vqi15z'
     }
   }
-}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']);
+}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']).service('ListService', _servicesListservice2['default']);
 
-},{"./config":1,"./controllers/addcontroller":2,"./controllers/homecontroller":3,"./controllers/itemcontroller":4,"./controllers/singlecontroller":5,"angular":9,"angular-ui-router":7}],7:[function(require,module,exports){
+},{"./config":1,"./controllers/addcontroller":2,"./controllers/homecontroller":3,"./controllers/itemcontroller":4,"./controllers/singlecontroller":5,"./services/listservice":7,"angular":10,"angular-ui-router":8}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var ListService = function ListService($http, PARSE, $state) {};
+
+ListService.$inject = ['$http', 'PARSE', '$state'];
+
+exports['default'] = ListService;
+module.exports = exports['default'];
+
+},{}],8:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4587,7 +4606,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33492,11 +33511,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":8}]},{},[6])
+},{"./angular":9}]},{},[6])
 
 
 //# sourceMappingURL=main.js.map
