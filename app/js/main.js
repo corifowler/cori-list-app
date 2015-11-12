@@ -142,7 +142,15 @@ var SingleController = function SingleController($scope, $stateParams, $http, PA
 
   $http.get(itemsUrl, PARSE.CONFIG).then(function (resp) {
 
+    // Gets all list items, need to narrow down to specific list
     $scope.allListItems = resp.data.results;
+
+    angular.forEach($scope.allListItems, function (items) {
+      if (items.list.objectId === id) {
+        $scope.matchListItems = items;
+        console.log($scope.matchListItems);
+      }
+    });
   });
 
   $scope.addListItems = function (item) {
