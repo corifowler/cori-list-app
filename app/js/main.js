@@ -63,7 +63,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var EditController = function EditController($scope, $stateParams, ListService) {
+var EditController = function EditController($scope, $stateParams, ListService, $state) {
 
   var itemId = $stateParams.itemId;
 
@@ -74,11 +74,12 @@ var EditController = function EditController($scope, $stateParams, ListService) 
   $scope.updateItem = function (item) {
     ListService.updateListItem(item).then(function (response) {
       console.log(response);
+      $state.go('root.home');
     });
   };
 };
 
-EditController.$inject = ['$scope', '$stateParams', 'ListService'];
+EditController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];
 
 exports['default'] = EditController;
 module.exports = exports['default'];
