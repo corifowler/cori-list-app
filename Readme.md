@@ -15,7 +15,6 @@ inspiration from : https://li.st/
 ### Possible Additions
 
 * User registration + login
-* Comments
 * List ratings
 
 ## Usage
