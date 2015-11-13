@@ -10,6 +10,7 @@ inspiration from : https://li.st/
 * View all user lists
 * Add items to each list
 * Update & Delete lists and their items
+* Users can add comments to lists & view comments
 
 ### Possible Additions
 
