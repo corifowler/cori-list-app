@@ -16,7 +16,7 @@ body {
 }
 
 .container {
-  width: 80%;
+  width: 50%;
   margin: 15px auto;
 
   li {
@@ -30,6 +30,25 @@ body {
       }
     }
   }
+}
+
+img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid #CBEFF9;
+}
+
+.list-img {
+  width: 35px;
+  height: 35px;
+}
+
+.list {
+  border: 1px solid lighten($ltblue, 40%);
+  color: $dkblue;
+  margin-top: 20px;
+  padding: 10px;
 }
 
 .top-bar,
@@ -49,9 +68,34 @@ body {
   }
 }
 
+.list-item {
+  font-size: 15px;
+  color: $dkblue;
+}
+
 .list-item:hover {
   .edit-btns{
     display: inline-block;
   }
 }
+
+d1 {
+  dt {
+    font-size: 20px;
+    font-weight: bold;
+    color: $red;
+    display: inline-block;
+  }
+
+  dd {
+    font-size: 14px;
+    color: $dkblue;
+    display: inline-block;
+  }
+
+  .description {
+    display: block;
+  }
+}
+
 

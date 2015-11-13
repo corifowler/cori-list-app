@@ -16,6 +16,7 @@ let ListService = function($http, PARSE, $state) {
     this.title = obj.title;
     this.description = obj.description;
     this.creator = obj.creator;
+    this.picture = obj.picture;
   };
 
   this.newList = function (obj) {

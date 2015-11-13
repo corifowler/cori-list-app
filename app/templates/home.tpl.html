@@ -1,7 +1,6 @@
-
 <ul>
-  <li class="no-bullet" ng-repeat="list in lists">
-   <h5><a href="#/single/{{list.objectId}}"> {{list.title}} </a></h5> | {{list.description}}
-   <hr>
+  <li class="no-bullet list" ng-repeat="list in lists">
+    <img ng-src="{{list.picture}}">
+    <h5><a href="#/single/{{list.objectId}}"> {{list.title}} </a></h5> | {{list.description}}
   </li>
 </ul>
