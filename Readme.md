@@ -1,6 +1,21 @@
-## Welcome to My Project
+## Cori's List App
 
-> I am your Readme.md file, you should probably update me.
+> View Project: http://acidic-touch.surge.sh/
+
+inspiration from : https://li.st/
+
+## App Features
+
+* Create a list about anything you'd like
+* View all user lists
+* Add items to each list
+* Update & Delete lists and their items
+
+# Possible Additions
+
+* User registration + login
+* Comments
+* List ratings
 
 
 ## Usage
@@ -16,8 +31,6 @@
 
 ## Assets Setup and ready for use
 
-- [Bourbon](http://bourbon.io/)
-- [Neat](http://neat.bourbon.io/)
 - [Font Awesome](https://fortawesome.github.io/Font-Awesome/)
 - [Foundation 5](http://foundation.zurb.com/)
 
@@ -26,15 +39,10 @@
 At the top of your `main.scss` file, just import any of the following:
 
 ```scss
-@import "bourbon";
-@import "neat";
-
 @import "foundation";
 
 @import "font-awesome";
 ```
-
-> Note: You probably don't want to use BOTH Bourbon/Neat & Foundation. Just pick one.
 
 ## NPM Tools Used
 
