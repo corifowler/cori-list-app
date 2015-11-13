@@ -17,13 +17,19 @@ inspiration from : https://li.st/
 * Comments
 * List ratings
 
-
 ## Usage
 
 - Clone this repo
 - Run `npm install` to install all necessary dependencies
 - Run `gulp start` to start the server and a handful of other tasks
 
+## Assets Used 
+
+* Angular JS
+* Angular UI Router
+* Foundation 5
+* Font Awesome
+* PARSE REST API
 
 ## Assets Installed By Default
 
@@ -44,11 +50,4 @@ At the top of your `main.scss` file, just import any of the following:
 @import "font-awesome";
 ```
 
-## NPM Tools Used
 
-- [Babel](https://babeljs.io/)
-- [Browserify](http://browserify.org/)
-- [JavaScript Code Style](http://jscs.info/)
-- [SASS](http://sass-lang.com/)
-- [Mocha](https://mochajs.org/)
-- [Chai](http://chaijs.com/)
