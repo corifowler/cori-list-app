@@ -11,7 +11,7 @@ inspiration from : https://li.st/
 * Add items to each list
 * Update & Delete lists and their items
 
-# Possible Additions
+### Possible Additions
 
 * User registration + login
 * Comments
