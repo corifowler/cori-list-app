@@ -113,4 +113,18 @@ d1 {
   text-align: right;
 }
 
+.comments {
+  list-style: none;
+  margin-top: 5px;
+  p {
+    color: $dkblue;
+    font-size: 14px;
+
+    span {
+      font-weight: bold;
+      color: $red;
+    }
+  }
+}
+
 

@@ -45,23 +45,71 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var AddController = function AddController($scope, ListService) {
+var AddController = function AddController($scope, ListService, $state) {
 
   $scope.createList = function (obj) {
 
     ListService.newList(obj).then(function (response) {
       console.log(response);
       $scope.list = {};
+      $state.go('root.home');
     });
   };
 };
 
-AddController.$inject = ['$scope', 'ListService'];
+AddController.$inject = ['$scope', 'ListService', '$state'];
 
 exports['default'] = AddController;
 module.exports = exports['default'];
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var CommentController = function CommentController($scope, $stateParams, ListService, $state) {
+
+  var id = $stateParams.listId;
+
+  ListService.getComments().then(function (response) {
+    $scope.allComments = response.data.results;
+
+    $scope.comments = [];
+
+    angular.forEach($scope.allComments, function (comments) {
+      if (comments.list.objectId === id) {
+        $scope.comments.push(comments);
+        console.log($scope.comments);
+      }
+    });
+  });
+
+  $scope.addComment = function (comment) {
+
+    comment = {
+      author: comment.author,
+      comment: comment.comment,
+      list: {
+        __type: 'Pointer',
+        className: 'lists',
+        objectId: id
+      }
+    };
+
+    ListService.addComment(comment).then(function (response) {
+      console.log(response);
+      $state.reload();
+    });
+  };
+};
+
+CommentController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];
+
+exports['default'] = CommentController;
+module.exports = exports['default'];
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -88,7 +136,7 @@ EditController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];
 exports['default'] = EditController;
 module.exports = exports['default'];
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -115,7 +163,7 @@ EditListController.$inject = ['$scope', '$stateParams', 'ListService', '$state']
 exports['default'] = EditListController;
 module.exports = exports['default'];
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -133,7 +181,7 @@ HomeController.$inject = ['$scope', 'ListService'];
 exports['default'] = HomeController;
 module.exports = exports['default'];
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -192,7 +240,7 @@ SingleController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];
 exports['default'] = SingleController;
 module.exports = exports['default'];
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -227,6 +275,10 @@ var _controllersEditlistcontroller = require('./controllers/editlistcontroller')
 
 var _controllersEditlistcontroller2 = _interopRequireDefault(_controllersEditlistcontroller);
 
+var _controllersCommentcontroller = require('./controllers/commentcontroller');
+
+var _controllersCommentcontroller2 = _interopRequireDefault(_controllersCommentcontroller);
+
 var _servicesListservice = require('./services/listservice');
 
 var _servicesListservice2 = _interopRequireDefault(_servicesListservice);
@@ -239,9 +291,9 @@ _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
       'X-Parse-REST-API-Key': 'G9VfYonn5rUNIHw7JRGtK6OpEApviiRb83Vqi15z'
     }
   }
-}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']).controller('EditController', _controllersEditcontroller2['default']).controller('EditListController', _controllersEditlistcontroller2['default']).service('ListService', _servicesListservice2['default']);
+}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']).controller('EditController', _controllersEditcontroller2['default']).controller('EditListController', _controllersEditlistcontroller2['default']).controller('CommentController', _controllersCommentcontroller2['default']).service('ListService', _servicesListservice2['default']);
 
-},{"./config":1,"./controllers/addcontroller":2,"./controllers/editcontroller":3,"./controllers/editlistcontroller":4,"./controllers/homecontroller":5,"./controllers/singlecontroller":6,"./services/listservice":8,"angular":11,"angular-ui-router":9}],8:[function(require,module,exports){
+},{"./config":1,"./controllers/addcontroller":2,"./controllers/commentcontroller":3,"./controllers/editcontroller":4,"./controllers/editlistcontroller":5,"./controllers/homecontroller":6,"./controllers/singlecontroller":7,"./services/listservice":9,"angular":12,"angular-ui-router":10}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -252,6 +304,8 @@ var ListService = function ListService($http, PARSE, $state) {
   var url = PARSE.URL + 'classes/lists/';
 
   var itemsUrl = PARSE.URL + 'classes/items';
+
+  var commentUrl = PARSE.URL + 'classes/comments';
 
   this.getLists = function () {
     return $http({
@@ -299,6 +353,14 @@ var ListService = function ListService($http, PARSE, $state) {
     });
   };
 
+  this.getComments = function () {
+    return $http({
+      url: commentUrl,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET'
+    });
+  };
+
   this.updateListItem = function (item) {
     return $http.put(itemsUrl + '/' + item.objectId, item, PARSE.CONFIG);
   };
@@ -314,6 +376,10 @@ var ListService = function ListService($http, PARSE, $state) {
   this.deleteListItem = function (item) {
     return $http['delete'](itemsUrl + '/' + item.objectId, PARSE.CONFIG);
   };
+
+  this.addComment = function (comment) {
+    return $http.post(commentUrl, comment, PARSE.CONFIG);
+  };
 };
 
 ListService.$inject = ['$http', 'PARSE', '$state'];
@@ -321,7 +387,7 @@ ListService.$inject = ['$http', 'PARSE', '$state'];
 exports['default'] = ListService;
 module.exports = exports['default'];
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4692,7 +4758,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33597,11 +33663,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":10}]},{},[7])
+},{"./angular":11}]},{},[8])
 
 
 //# sourceMappingURL=main.js.map

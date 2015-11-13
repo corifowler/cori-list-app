@@ -4,6 +4,8 @@ let ListService = function($http, PARSE, $state) {
 
   let itemsUrl = PARSE.URL + 'classes/items';
 
+  let commentUrl = PARSE.URL + 'classes/comments';
+
   this.getLists = function () {
     return $http({
       url: url,
@@ -50,6 +52,14 @@ let ListService = function($http, PARSE, $state) {
     });
   };
 
+  this.getComments = function () {
+    return $http({
+      url: commentUrl,
+      headers: PARSE.CONFIG.headers,
+      method: 'GET'
+    });
+  };
+
   this.updateListItem = function (item) {
     return $http.put(itemsUrl + '/' + item.objectId, item, PARSE.CONFIG);
   };
@@ -64,6 +74,10 @@ let ListService = function($http, PARSE, $state) {
 
   this.deleteListItem = function (item) {
     return $http.delete(itemsUrl + '/' + item.objectId, PARSE.CONFIG);
+  };
+
+  this.addComment = function (comment) {
+    return $http.post(commentUrl, comment, PARSE.CONFIG);
   };
 
 };

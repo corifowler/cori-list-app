@@ -8477,4 +8477,14 @@ d1 .description {
   font-size: 14px;
   text-align: right; }
 
+.comments {
+  list-style: none;
+  margin-top: 5px; }
+  .comments p {
+    color: #1B405B;
+    font-size: 14px; }
+    .comments p span {
+      font-weight: bold;
+      color: #F52E23; }
+
 /*# sourceMappingURL=main.css.map */

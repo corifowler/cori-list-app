@@ -18,3 +18,23 @@
   <input placeholder="Add List Item" ng-model="item.name">
   <button class="button small info">Add List Items</button>
 </form>
+
+<hr>
+
+<div ng-controller="CommentController">
+<h4>Comments</h4>
+
+<ul class="disc">
+  <li class="comments" ng-repeat="comment in comments">
+    <p><span>{{ comment.author }}</span> : {{ comment.comment }}</p>
+  </li>
+</ul>
+
+<hr>
+
+  <form ng-submit="addComment(comment)">
+    <input placeholder="What is your name?" ng-model="comment.author">
+    <input placeholder="Comment (please be nice :) )" ng-model="comment.comment">
+    <button class="button small info">Add Comment</button>
+  </form>
+</div>

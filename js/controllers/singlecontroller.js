@@ -44,7 +44,7 @@ let SingleController = function($scope, $stateParams, ListService, $state) {
       $state.reload();
     });
   };
-  
+   
 };
 
 SingleController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];

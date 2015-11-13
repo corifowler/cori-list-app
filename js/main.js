@@ -8,6 +8,7 @@ import AddController from './controllers/addcontroller';
 import SingleController from './controllers/singlecontroller';
 import EditController from './controllers/editcontroller';
 import EditListController from './controllers/editlistcontroller';
+import CommentController from './controllers/commentcontroller';
 
 import ListService from './services/listservice';
 
@@ -28,4 +29,5 @@ angular
   .controller('SingleController', SingleController)
   .controller('EditController', EditController)
   .controller('EditListController', EditListController)
+  .controller('CommentController', CommentController)
   .service('ListService', ListService);
