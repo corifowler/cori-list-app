@@ -24,7 +24,7 @@ let SingleController = function($scope, $stateParams, ListService, $state) {
     console.log(items);
     ListService.deleteListItem(items).then( (response) => {
       console.log(response);
-      $state.go('root.home');
+      $state.reload();
     });
   };
 
@@ -41,6 +41,7 @@ let SingleController = function($scope, $stateParams, ListService, $state) {
 
     ListService.addListItems(item).then( (response) => {
       $scope.item = {};
+      $state.reload();
     });
   };
   

@@ -12,7 +12,7 @@ $red: #F52E23;
 
 
 body {
-  font-family: 'Arimo', sans-serif;
+  font-family: 'Droid Serif', serif;
 }
 
 .container {
@@ -60,7 +60,8 @@ img {
   background: $pistachio !important;
 }
 
-.edit-btns {
+.edit-btns,
+.edit-btns-l {
   display: none;
 
   a {
@@ -79,7 +80,15 @@ img {
   }
 }
 
+.list-header:hover {
+  .edit-btns-l {
+    display: inline-block;
+  }
+}
+
+
 d1 {
+
   dt {
     font-size: 20px;
     font-weight: bold;
@@ -96,6 +105,12 @@ d1 {
   .description {
     display: block;
   }
+
+}
+
+.go-home {
+  font-size: 14px;
+  text-align: right;
 }
 
 

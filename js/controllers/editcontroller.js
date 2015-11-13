@@ -1,7 +1,7 @@
 let EditController = function($scope, $stateParams, ListService, $state) {
 
   let itemId = $stateParams.itemId;
-  
+
   ListService.getItem(itemId).then( (response) => {
     $scope.item = response.data;
   });

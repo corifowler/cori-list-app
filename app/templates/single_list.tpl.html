@@ -1,9 +1,10 @@
-<d1>
+<d1 class="list-header">
   <img class="list-img" ng-src="{{singleList.picture}}">
   <dd >by {{ singleList.creator }}</dd>
   <hr>
   <dt>{{ singleList.title }}</dt>
   <dd class="description">{{ singleList.description }}</dd>
+  <span class="edit-btns-l"><a href="#/editlist/{{singleList.objectId}}"> <i class="fa fa-pencil"></i></a></span>
   <hr>
 </d1>
 

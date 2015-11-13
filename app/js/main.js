@@ -27,6 +27,10 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/edit/:itemId',
     controller: 'EditController',
     templateUrl: 'templates/edit_list.tpl.html'
+  }).state('root.editList', {
+    url: '/editlist/:listId',
+    controller: 'EditListController',
+    templateUrl: 'templates/edit_full_list.tpl.html'
   });
 };
 
@@ -90,6 +94,33 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+var EditListController = function EditListController($scope, $stateParams, ListService, $state) {
+
+  var listId = $stateParams.listId;
+
+  ListService.getSingleList(listId).then(function (response) {
+    $scope.list = response.data;
+  });
+
+  $scope.updateList = function (list) {
+    ListService.updateList(list).then(function (response) {
+      console.log(response);
+      $state.go('root.home');
+    });
+  };
+};
+
+EditListController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];
+
+exports['default'] = EditListController;
+module.exports = exports['default'];
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 var HomeController = function HomeController($scope, ListService) {
 
   ListService.getLists().then(function (response) {
@@ -102,7 +133,7 @@ HomeController.$inject = ['$scope', 'ListService'];
 exports['default'] = HomeController;
 module.exports = exports['default'];
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -134,7 +165,7 @@ var SingleController = function SingleController($scope, $stateParams, ListServi
     console.log(items);
     ListService.deleteListItem(items).then(function (response) {
       console.log(response);
-      $state.go('root.home');
+      $state.reload();
     });
   };
 
@@ -151,6 +182,7 @@ var SingleController = function SingleController($scope, $stateParams, ListServi
 
     ListService.addListItems(item).then(function (response) {
       $scope.item = {};
+      $state.reload();
     });
   };
 };
@@ -160,7 +192,7 @@ SingleController.$inject = ['$scope', '$stateParams', 'ListService', '$state'];
 exports['default'] = SingleController;
 module.exports = exports['default'];
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -191,6 +223,10 @@ var _controllersEditcontroller = require('./controllers/editcontroller');
 
 var _controllersEditcontroller2 = _interopRequireDefault(_controllersEditcontroller);
 
+var _controllersEditlistcontroller = require('./controllers/editlistcontroller');
+
+var _controllersEditlistcontroller2 = _interopRequireDefault(_controllersEditlistcontroller);
+
 var _servicesListservice = require('./services/listservice');
 
 var _servicesListservice2 = _interopRequireDefault(_servicesListservice);
@@ -203,9 +239,9 @@ _angular2['default'].module('app', ['ui.router']).constant('PARSE', {
       'X-Parse-REST-API-Key': 'G9VfYonn5rUNIHw7JRGtK6OpEApviiRb83Vqi15z'
     }
   }
-}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']).controller('EditController', _controllersEditcontroller2['default']).service('ListService', _servicesListservice2['default']);
+}).config(_config2['default']).controller('HomeController', _controllersHomecontroller2['default']).controller('AddController', _controllersAddcontroller2['default']).controller('SingleController', _controllersSinglecontroller2['default']).controller('EditController', _controllersEditcontroller2['default']).controller('EditListController', _controllersEditlistcontroller2['default']).service('ListService', _servicesListservice2['default']);
 
-},{"./config":1,"./controllers/addcontroller":2,"./controllers/editcontroller":3,"./controllers/homecontroller":4,"./controllers/singlecontroller":5,"./services/listservice":7,"angular":10,"angular-ui-router":8}],7:[function(require,module,exports){
+},{"./config":1,"./controllers/addcontroller":2,"./controllers/editcontroller":3,"./controllers/editlistcontroller":4,"./controllers/homecontroller":5,"./controllers/singlecontroller":6,"./services/listservice":8,"angular":11,"angular-ui-router":9}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -242,7 +278,8 @@ var ListService = function ListService($http, PARSE, $state) {
     return $http({
       url: url + id,
       headers: PARSE.CONFIG.headers,
-      method: 'GET'
+      method: 'GET',
+      cache: true
     });
   };
 
@@ -266,6 +303,10 @@ var ListService = function ListService($http, PARSE, $state) {
     return $http.put(itemsUrl + '/' + item.objectId, item, PARSE.CONFIG);
   };
 
+  this.updateList = function (list) {
+    return $http.put(url + '/' + list.objectId, list, PARSE.CONFIG);
+  };
+
   this.addListItems = function (item) {
     return $http.post(itemsUrl, item, PARSE.CONFIG);
   };
@@ -280,7 +321,7 @@ ListService.$inject = ['$http', 'PARSE', '$state'];
 exports['default'] = ListService;
 module.exports = exports['default'];
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4651,7 +4692,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33556,11 +33597,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":9}]},{},[6])
+},{"./angular":10}]},{},[7])
 
 
 //# sourceMappingURL=main.js.map

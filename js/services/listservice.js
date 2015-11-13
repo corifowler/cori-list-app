@@ -29,7 +29,8 @@ let ListService = function($http, PARSE, $state) {
     return $http({
       url: url + id,
       headers: PARSE.CONFIG.headers,
-      method: 'GET'
+      method: 'GET',
+      cache: true
     });
   };
 
@@ -53,6 +54,10 @@ let ListService = function($http, PARSE, $state) {
     return $http.put(itemsUrl + '/' + item.objectId, item, PARSE.CONFIG);
   };
 
+  this.updateList = function (list) {
+    return $http.put(url + '/' + list.objectId, list, PARSE.CONFIG);
+  };
+
   this.addListItems = function (item) {
     return $http.post(itemsUrl, item, PARSE.CONFIG);
   };
@@ -60,7 +65,6 @@ let ListService = function($http, PARSE, $state) {
   this.deleteListItem = function (item) {
     return $http.delete(itemsUrl + '/' + item.objectId, PARSE.CONFIG);
   };
-  
 
 };
 
